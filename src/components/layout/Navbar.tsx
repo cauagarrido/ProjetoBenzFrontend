@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, History, Car, Lock, Sparkles } from 'lucide-react';
+import { ShieldCheck, History } from 'lucide-react';
 import { Button } from '../ui/Button';
 
 interface NavbarProps {
@@ -31,39 +31,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="text-xl font-black tracking-tight text-white">
                 BENZ<span className="text-blue-500">CHECK</span>
               </span>
-              <span className="px-1.5 py-0.5 text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded uppercase tracking-wider">
-                PRO
-              </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden sm:block">
-              Inteligência & Histórico Veicular
+              Consulta de Histórico Veicular
             </p>
           </div>
         </button>
-
-        {/* Navigation items for large screens */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-          <button
-            onClick={onResetToHome}
-            className="hover:text-white transition-colors flex items-center gap-1.5"
-          >
-            <Car className="w-4 h-4 text-blue-400" />
-            Nova Consulta
-          </button>
-          <a
-            href="#como-funciona"
-            className="hover:text-white transition-colors"
-          >
-            Como Funciona
-          </a>
-          <a
-            href="#garantias"
-            className="hover:text-white transition-colors flex items-center gap-1"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            Vantagens
-          </a>
-        </nav>
 
         {/* Right Actions */}
         <div className="flex items-center gap-3">
@@ -81,11 +54,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             )}
           </Button>
-
-          <div className="hidden lg:flex items-center gap-2 pl-3 border-l border-slate-800 text-xs text-slate-400">
-            <Lock className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Dados 100% Criptografados</span>
-          </div>
         </div>
       </div>
     </header>

@@ -2,8 +2,7 @@ import React from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { HeroSearch } from './components/hero/HeroSearch';
-import { TrustSection } from './components/hero/TrustSection';
-import { HowItWorksSection } from './components/hero/HowItWorksSection';
+
 import { VehiclePreviewCard } from './components/checkout/VehiclePreviewCard';
 import { PixCheckoutModal } from './components/checkout/PixCheckoutModal';
 import { ReportContainer } from './components/report/ReportContainer';
@@ -54,10 +53,6 @@ export function App() {
               onSearch={() => handleSearch()}
               isLoading={isLoading}
             />
-
-            <TrustSection />
-
-            <HowItWorksSection />
           </div>
         )}
 
@@ -69,8 +64,6 @@ export function App() {
               onProceedToCheckout={handleStartCheckout}
               onBackToSearch={handleResetToSearch}
             />
-
-            <TrustSection />
           </div>
         )}
 
