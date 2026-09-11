@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 overflow-x-hidden;
+  }
+}
+
+/* Glassmorphism & Custom Accents */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-light {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.gradient-border {
+  position: relative;
+  background: linear-gradient(60deg, #3b82f6, #6366f1, #06b6d4);
+  padding: 2px;
+  border-radius: 1rem;
+}
+
+/* Placa Mercosul & Tradicional Realista */
+.plate-mercosul-container {
+  background: #ffffff;
+  border: 4px solid #000000;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 51, 153, 0.3), inset 0 2px 4px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.plate-mercosul-header {
+  background: #003399;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.plate-old-container {
+  background: #e2e8f0;
+  border: 4px solid #475569;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+/* Estilo de Impressão para Relatório */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .glass-panel, .glass-panel-light {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    color: #0f172a !important;
+  }
+
+  .print-break-inside-avoid {
+    break-inside: avoid;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
