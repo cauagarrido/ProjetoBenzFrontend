@@ -30,11 +30,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({
       {/* Background glow effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-blue-600/15 blur-[120px] rounded-full pointer-events-none -z-10" />
 
-      {/* Pill Badge */}
-      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-6 shadow-sm shadow-blue-500/10 animate-fade-in">
-        <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-        <span>Consulta Veicular Profissional</span>
-      </div>
+
 
       {/* Main Title */}
       <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white max-w-4xl leading-[1.15] sm:leading-[1.15]">
@@ -77,11 +73,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({
           </Button>
         </div>
 
-        <div className="mt-3 flex items-center justify-center gap-3 text-[11px] text-slate-400">
-          <span className="flex items-center gap-1">🔒 Consulta Segura</span>
-          <span>•</span>
-          <span className="flex items-center gap-1">⚡ Resultado Instantâneo</span>
-        </div>
+
       </div>
 
       {/* Quick Test Preset Buttons */}

@@ -6,9 +6,6 @@ import {
   CheckCircle,
   Lock,
   Car,
-  ShieldCheck,
-  Zap,
-  Flame,
   ArrowRight,
   Sparkles,
   MapPin,
@@ -154,12 +151,6 @@ export const VehiclePreviewCard: React.FC<VehiclePreviewCardProps> = ({
         <div className="lg:col-span-7 flex flex-col justify-between">
           <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-blue-500/30 shadow-2xl relative">
             
-            {/* Banner promocional */}
-            <div className="flex items-center gap-2 text-xs font-bold text-amber-400 mb-3 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20 w-fit">
-              <Flame className="w-4 h-4 fill-amber-400" />
-              <span>Desconto Promocional por Tempo Limitado</span>
-            </div>
-
             <h3 className="text-2xl font-black text-white">
               Desbloqueie o Relatório Completo
             </h3>
@@ -172,14 +163,8 @@ export const VehiclePreviewCard: React.FC<VehiclePreviewCardProps> = ({
             {/* Caixa de Preço e Ação */}
             <div className="mt-8 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500 line-through">De R$ 59,90</span>
-                  <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
-                    42% OFF
-                  </span>
-                </div>
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-3xl font-black text-white">R$ 34,90</span>
+                  <span className="text-3xl font-black text-white">R$ 49,99</span>
                   <span className="text-xs text-slate-400">no PIX Instantâneo</span>
                 </div>
               </div>
@@ -195,17 +180,7 @@ export const VehiclePreviewCard: React.FC<VehiclePreviewCardProps> = ({
               </Button>
             </div>
 
-            <div className="mt-4 flex items-center justify-center sm:justify-start gap-4 text-[11px] text-slate-400">
-              <span className="flex items-center gap-1">
-                <Zap className="w-3.5 h-3.5 text-amber-400" />
-                Liberação em 3s
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                Garantia de Satisfação
-              </span>
-            </div>
+
 
           </div>
         </div>

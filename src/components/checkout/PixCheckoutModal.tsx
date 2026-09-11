@@ -7,10 +7,7 @@ import {
   Copy,
   Check,
   Clock,
-  ShieldCheck,
-  Zap,
-  Sparkles,
-  Lock
+  Sparkles
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -117,7 +114,7 @@ export const PixCheckoutModal: React.FC<PixCheckoutModalProps> = ({
               <Clock className="w-4 h-4" />
               <span>Expira em {formatTime(timeLeft)}</span>
             </div>
-            <span className="text-[10px] text-slate-500 mt-1 block">Ambiente Seguro</span>
+
           </div>
         </div>
 
@@ -179,10 +176,7 @@ export const PixCheckoutModal: React.FC<PixCheckoutModalProps> = ({
           </Button>
         </div>
 
-        <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 text-center">
-          <Lock className="w-3.5 h-3.5 text-emerald-500" />
-          <span>Pagamento processado com segurança de ponta a ponta</span>
-        </div>
+
 
       </div>
     </Modal>
