@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Sparkles, AlertCircle, CheckCircle, ShieldAlert } from 'lucide-react';
+import { Search, AlertCircle, CheckCircle, ShieldAlert } from 'lucide-react';
 import { PlateInput } from './PlateInput';
 import { Button } from '../ui/Button';
 
@@ -78,49 +78,51 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({
 
       {/* Quick Test Preset Buttons */}
       <div className="mt-8 flex flex-col items-center">
-        <p className="text-xs font-semibold text-slate-400 mb-3 flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
-          Ou teste com placas demonstrativas reais:
+        <p className="text-xs font-semibold text-slate-400 mb-3">
+          Teste com placas demonstrativas:
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-2.5">
+          {/* Veículo aprovado */}
           <button
             onClick={() => handleSelectPreset('BRA2E19')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-lg text-xs font-medium border transition-all flex items-center gap-2 ${
               plate === 'BRA2E19'
                 ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 ring-2 ring-emerald-500/30'
                 : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-emerald-500/50 hover:text-white'
             }`}
           >
-            <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+            <CheckCircle className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
             <span>Civic Touring</span>
-            <span className="text-[10px] font-mono bg-slate-800 px-1 py-0.5 rounded text-emerald-400">BRA2E19</span>
+            <span className="text-[10px] font-mono bg-emerald-950 border border-emerald-800 px-1.5 py-0.5 rounded text-emerald-400">Aprovado</span>
           </button>
 
+          {/* Veículo com alertas */}
           <button
             onClick={() => handleSelectPreset('ABC1D23')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-lg text-xs font-medium border transition-all flex items-center gap-2 ${
               plate === 'ABC1D23'
                 ? 'bg-amber-500/20 border-amber-500 text-amber-300 ring-2 ring-amber-500/30'
                 : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-amber-500/50 hover:text-white'
             }`}
           >
-            <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
+            <AlertCircle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
             <span>Compass</span>
-            <span className="text-[10px] font-mono bg-slate-800 px-1 py-0.5 rounded text-amber-400">ABC1D23</span>
+            <span className="text-[10px] font-mono bg-amber-950 border border-amber-800 px-1.5 py-0.5 rounded text-amber-400">Com Alertas</span>
           </button>
 
+          {/* Veículo reprovado */}
           <button
             onClick={() => handleSelectPreset('XYZ9876')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-lg text-xs font-medium border transition-all flex items-center gap-2 ${
               plate === 'XYZ9876'
                 ? 'bg-rose-500/20 border-rose-500 text-rose-300 ring-2 ring-rose-500/30'
                 : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-rose-500/50 hover:text-white'
             }`}
           >
-            <ShieldAlert className="w-3.5 h-3.5 text-rose-400" />
+            <ShieldAlert className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
             <span>Gol MSI</span>
-            <span className="text-[10px] font-mono bg-slate-800 px-1 py-0.5 rounded text-rose-400">XYZ9876</span>
+            <span className="text-[10px] font-mono bg-rose-950 border border-rose-800 px-1.5 py-0.5 rounded text-rose-400">Reprovado</span>
           </button>
         </div>
       </div>

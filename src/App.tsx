@@ -2,7 +2,6 @@ import React from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { HeroSearch } from './components/hero/HeroSearch';
-
 import { VehiclePreviewCard } from './components/checkout/VehiclePreviewCard';
 import { PixCheckoutModal } from './components/checkout/PixCheckoutModal';
 import { ReportContainer } from './components/report/ReportContainer';
@@ -33,7 +32,7 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white font-sans antialiased">
-      
+
       {/* 1. Header Global */}
       <Navbar
         onOpenHistory={() => setIsHistoryDrawerOpen(true)}
@@ -43,7 +42,7 @@ export function App() {
 
       {/* 2. Conteúdo Dinâmico por Etapa da Jornada */}
       <main className="flex-1">
-        
+
         {/* ETAPA 1: Busca & Hero */}
         {step === 'SEARCH' && (
           <div className="pt-6 sm:pt-10">
