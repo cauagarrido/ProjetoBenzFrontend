@@ -29,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Logotipo Compra Segura VEÍCULOS */}
+        {/* Logotipo Benz Check */}
         <button
           onClick={onResetToHome}
           className="flex items-center gap-3 group text-left focus:outline-none cursor-pointer"
@@ -40,13 +40,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
           <div>
-            <div className="flex items-center">
-              <span className={`text-lg sm:text-xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Compra Segura
+            <div className="flex items-center gap-1.5">
+              <span className={`text-lg sm:text-xl font-black tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                BENZ<span className="text-emerald-500">CHECK</span>
               </span>
             </div>
-            <p className="text-[10px] tracking-[0.2em] font-bold text-slate-400 uppercase -mt-0.5">
-              VEÍCULOS
+            <p className="text-[10px] tracking-[0.18em] font-bold text-slate-400 uppercase -mt-0.5">
+              CONSULTA VEICULAR
             </p>
           </div>
         </button>

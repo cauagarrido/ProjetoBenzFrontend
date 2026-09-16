@@ -29,7 +29,7 @@ export function App() {
       className={`min-h-screen flex flex-col font-sans antialiased transition-colors duration-200 ${
         isDarkTheme
           ? 'bg-[#090e17] text-white selection:bg-[#00e676] selection:text-slate-950'
-          : 'bg-[#f4f7fb] text-slate-800 selection:bg-blue-600 selection:text-white'
+          : 'bg-[#e8ecf2] text-slate-800 selection:bg-blue-600 selection:text-white'
       }`}
     >
       {/* 1. Header Global com Suporte aos Modos Escuro e Claro */}

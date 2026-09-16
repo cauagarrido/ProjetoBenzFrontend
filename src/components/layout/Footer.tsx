@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ theme = 'dark' }) => {
             </div>
             <div>
               <span className={`text-sm font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Compra Segura <span className="text-[10px] tracking-widest uppercase font-bold text-slate-400 ml-1">VEÍCULOS</span>
+                BENZ<span className="text-emerald-500">CHECK</span> <span className="text-[10px] tracking-widest uppercase font-bold text-slate-400 ml-1">VEICULAR</span>
               </span>
             </div>
           </div>
@@ -38,7 +38,7 @@ export const Footer: React.FC<FooterProps> = ({ theme = 'dark' }) => {
             <span>Privacidade & Termos</span>
             <span>Consulta 100% Criptografada</span>
             <p className="text-slate-500">
-              © {new Date().getFullYear()} Compra Segura Veículos. Todos os direitos reservados.
+              © {new Date().getFullYear()} Benz Check. Todos os direitos reservados.
             </p>
           </div>
 

@@ -5,13 +5,7 @@ import {
   Crosshair,
   Shield,
   ArrowRight,
-  Lock,
-  Clock,
-  Landmark,
-  FileCheck,
-  Headphones,
-  CheckCircle,
-  AlertCircle
+  Lock
 } from 'lucide-react';
 
 interface HeroSearchProps {
@@ -119,7 +113,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({
               <div className="relative z-10 w-full overflow-hidden rounded-2xl">
                 <img
                   src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=85"
-                  alt="Veículo Moderno Compra Segura"
+                  alt="Veículo Moderno Benz Check"
                   className="w-full h-[320px] sm:h-[380px] object-cover object-center rounded-2xl shadow-2xl brightness-90 contrast-110 filter"
                   style={{
                     maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
@@ -128,7 +122,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({
                 />
               </div>
 
-              {/* Card Flutuante de Busca por Placa (Como na Referência) */}
+              {/* Card Flutuante de Busca por Placa */}
               <div className="relative lg:absolute lg:bottom-4 lg:right-2 z-20 w-full max-w-md mt-6 lg:mt-0 p-6 rounded-2xl bg-[#0d1624]/90 backdrop-blur-xl border border-slate-700/80 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
                 
                 <h3 className="text-base sm:text-lg font-bold text-white tracking-tight text-left">
@@ -198,56 +192,6 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({
 
         </div>
       </div>
-
-      {/* Barra de Confiança Inferior (4 Colunas) */}
-      <div className="w-full border-t border-slate-800/80 bg-[#070b12]/90 backdrop-blur-md py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-800/80">
-            
-            {/* Coluna 1 */}
-            <div className="flex items-center gap-3.5 px-3 pt-3 sm:pt-0">
-              <div className="w-10 h-10 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-slate-300 flex-shrink-0">
-                <Clock className="w-5 h-5 text-emerald-400" />
-              </div>
-              <p className="text-xs sm:text-sm font-semibold text-slate-200 text-left">
-                Dados atualizados<br />e confiáveis
-              </p>
-            </div>
-
-            {/* Coluna 2 */}
-            <div className="flex items-center gap-3.5 px-3 pt-3 sm:pt-0">
-              <div className="w-10 h-10 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-slate-300 flex-shrink-0">
-                <Landmark className="w-5 h-5 text-emerald-400" />
-              </div>
-              <p className="text-xs sm:text-sm font-semibold text-slate-200 text-left">
-                Informações de diversas<br />fontes oficiais
-              </p>
-            </div>
-
-            {/* Coluna 3 */}
-            <div className="flex items-center gap-3.5 px-3 pt-3 sm:pt-0">
-              <div className="w-10 h-10 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-slate-300 flex-shrink-0">
-                <FileCheck className="w-5 h-5 text-emerald-400" />
-              </div>
-              <p className="text-xs sm:text-sm font-semibold text-slate-200 text-left">
-                Relatório completo<br />e fácil de entender
-              </p>
-            </div>
-
-            {/* Coluna 4 */}
-            <div className="flex items-center gap-3.5 px-3 pt-3 sm:pt-0">
-              <div className="w-10 h-10 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-slate-300 flex-shrink-0">
-                <Headphones className="w-5 h-5 text-emerald-400" />
-              </div>
-              <p className="text-xs sm:text-sm font-semibold text-slate-200 text-left">
-                Suporte especializado<br />em todas as etapas
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 };

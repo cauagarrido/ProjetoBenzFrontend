@@ -17,7 +17,7 @@ export default {
           darkBg: '#090e17',
           darkSurface: '#0f1726',
           darkCard: '#131d2e',
-          lightBg: '#f4f7fb',
+          lightBg: '#e8ecf2',
           50: '#eff6ff',
           100: '#dbeafe',
           200: '#bfdbfe',
