@@ -2,8 +2,6 @@ import React from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { HeroSearch } from './components/hero/HeroSearch';
-import { VehiclePreviewCard } from './components/checkout/VehiclePreviewCard';
-import { PixCheckoutModal } from './components/checkout/PixCheckoutModal';
 import { ReportContainer } from './components/report/ReportContainer';
 import { MyQueriesDrawer } from './components/history/MyQueriesDrawer';
 import { useVehicleQuery } from './hooks/useVehicleQuery';
@@ -13,78 +11,57 @@ export function App() {
     step,
     plate,
     setPlate,
-    basicInfo,
     fullReport,
-    pixData,
-    isCheckoutOpen,
-    setIsCheckoutOpen,
     isHistoryDrawerOpen,
     setIsHistoryDrawerOpen,
     isLoading,
     history,
     handleSearch,
-    handleStartCheckout,
-    handlePaymentConfirmed,
     handleSelectReportFromHistory,
     handleClearHistory,
     handleResetToSearch,
   } = useVehicleQuery();
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white font-sans antialiased">
+  const isDarkTheme = step === 'SEARCH';
 
-      {/* 1. Header Global */}
+  return (
+    <div
+      className={`min-h-screen flex flex-col font-sans antialiased transition-colors duration-200 ${
+        isDarkTheme
+          ? 'bg-[#090e17] text-white selection:bg-[#00e676] selection:text-slate-950'
+          : 'bg-[#f4f7fb] text-slate-800 selection:bg-blue-600 selection:text-white'
+      }`}
+    >
+      {/* 1. Header Global com Suporte aos Modos Escuro e Claro */}
       <Navbar
+        theme={isDarkTheme ? 'dark' : 'light'}
         onOpenHistory={() => setIsHistoryDrawerOpen(true)}
         historyCount={history.length}
         onResetToHome={handleResetToSearch}
       />
 
-      {/* 2. Conteúdo Dinâmico por Etapa da Jornada */}
+      {/* 2. Conteúdo Principal da Aplicação */}
       <main className="flex-1">
-
-        {/* ETAPA 1: Busca & Hero */}
+        {/* TELA 1: Landing Page / Hero de Consulta (Escura) */}
         {step === 'SEARCH' && (
-          <div className="pt-6 sm:pt-10">
-            <HeroSearch
-              plate={plate}
-              setPlate={setPlate}
-              onSearch={() => handleSearch()}
-              isLoading={isLoading}
-            />
-          </div>
+          <HeroSearch
+            plate={plate}
+            setPlate={setPlate}
+            onSearch={(customPlate) => handleSearch(customPlate)}
+            isLoading={isLoading}
+          />
         )}
 
-        {/* ETAPA 2: Prévia & Checkout de Alta Conversão */}
-        {step === 'PREVIEW' && basicInfo && (
-          <div className="pt-4 sm:pt-8">
-            <VehiclePreviewCard
-              basicInfo={basicInfo}
-              onProceedToCheckout={handleStartCheckout}
-              onBackToSearch={handleResetToSearch}
-            />
-          </div>
-        )}
-
-        {/* ETAPA 3: Dashboard do Relatório Completo */}
+        {/* TELA 2: Dashboard Completo do Veículo (Clara) */}
         {step === 'REPORT' && fullReport && (
           <ReportContainer
             report={fullReport}
             onNewSearch={handleResetToSearch}
           />
         )}
-
       </main>
 
-      {/* 3. Modal de Pagamento PIX Dinâmico */}
-      <PixCheckoutModal
-        isOpen={isCheckoutOpen}
-        onClose={() => setIsCheckoutOpen(false)}
-        pixData={pixData}
-        onPaymentConfirmed={handlePaymentConfirmed}
-      />
-
-      {/* 4. Gaveta Lateral de Minhas Consultas */}
+      {/* 3. Gaveta Lateral de Histórico de Consultas */}
       <MyQueriesDrawer
         isOpen={isHistoryDrawerOpen}
         onClose={() => setIsHistoryDrawerOpen(false)}
@@ -93,11 +70,11 @@ export function App() {
         onClearHistory={handleClearHistory}
       />
 
-      {/* 5. Rodapé Global */}
-      <Footer />
-
+      {/* 4. Rodapé Global */}
+      <Footer theme={isDarkTheme ? 'dark' : 'light'} />
     </div>
   );
 }
 
 export default App;
+

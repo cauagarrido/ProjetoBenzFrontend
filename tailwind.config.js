@@ -9,6 +9,15 @@ export default {
     extend: {
       colors: {
         brand: {
+          green: '#00e676',
+          greenHover: '#00c853',
+          greenLight: '#eefbf3',
+          greenBorder: '#c8f0d5',
+          greenText: '#14532d',
+          darkBg: '#090e17',
+          darkSurface: '#0f1726',
+          darkCard: '#131d2e',
+          lightBg: '#f4f7fb',
           50: '#eff6ff',
           100: '#dbeafe',
           200: '#bfdbfe',
@@ -28,7 +37,7 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
         plate: ['"FE-Schrift"', 'Impact', '"Arial Black"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },

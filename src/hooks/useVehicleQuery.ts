@@ -3,18 +3,15 @@ import { vehicleApi } from '../services/api';
 import {
   VehicleBasicInfo,
   FullVehicleReport,
-  PixPaymentResponse
 } from '../types/vehicle';
 
-export type QueryStep = 'SEARCH' | 'PREVIEW' | 'REPORT';
+export type QueryStep = 'SEARCH' | 'REPORT';
 
 export function useVehicleQuery() {
   const [step, setStep] = useState<QueryStep>('SEARCH');
-  const [plate, setPlate] = useState<string>('');
+  const [plate, setPlate] = useState<string>('ABC1D23');
   const [basicInfo, setBasicInfo] = useState<VehicleBasicInfo | null>(null);
   const [fullReport, setFullReport] = useState<FullVehicleReport | null>(null);
-  const [pixData, setPixData] = useState<PixPaymentResponse | null>(null);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [history, setHistory] = useState<FullVehicleReport[]>([]);
@@ -26,7 +23,7 @@ export function useVehicleQuery() {
   }, []);
 
   /**
-   * Executa a busca inicial da placa para gerar a prévia
+   * Executa a busca da placa e abre diretamente o relatório
    */
   const handleSearch = async (targetPlate?: string) => {
     const searchTarget = targetPlate || plate;
@@ -36,54 +33,15 @@ export function useVehicleQuery() {
     setIsLoading(true);
 
     try {
-      // 1. Busca dados básicos
-      const info = await vehicleApi.getVehiclePreview(clean);
-      setBasicInfo(info);
-      setStep('PREVIEW');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
-      console.error('Erro na consulta básica:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  /**
-   * Inicia o fluxo de checkout PIX
-   */
-  const handleStartCheckout = async () => {
-    if (!basicInfo) return;
-
-    setIsLoading(true);
-    try {
-      const pix = await vehicleApi.createPixPayment(basicInfo.plate, 34.90);
-      setPixData(pix);
-      setIsCheckoutOpen(true);
-    } catch (err) {
-      console.error('Erro ao gerar PIX:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  /**
-   * Confirmação do pagamento (simulada ou via webhook)
-   */
-  const handlePaymentConfirmed = async () => {
-    if (!basicInfo) return;
-
-    setIsLoading(true);
-    try {
-      const report = await vehicleApi.getFullReport(basicInfo.plate, pixData?.paymentId);
+      const report = await vehicleApi.getFullReport(clean);
+      setPlate(clean);
+      setBasicInfo(report.basicInfo);
       setFullReport(report);
-      setIsCheckoutOpen(false);
       setStep('REPORT');
-      
-      // Atualiza lista de histórico
       setHistory(vehicleApi.getLocalHistory());
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      console.error('Erro ao buscar relatório completo:', err);
+      console.error('Erro na consulta do veículo:', err);
     } finally {
       setIsLoading(false);
     }
@@ -97,6 +55,7 @@ export function useVehicleQuery() {
     setBasicInfo(report.basicInfo);
     setFullReport(report);
     setStep('REPORT');
+    setIsHistoryDrawerOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -109,14 +68,12 @@ export function useVehicleQuery() {
   };
 
   /**
-   * Reseta o fluxo para uma nova busca
+   * Reseta o fluxo para uma nova busca na Home
    */
   const handleResetToSearch = () => {
     setStep('SEARCH');
     setBasicInfo(null);
     setFullReport(null);
-    setPixData(null);
-    setIsCheckoutOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -126,18 +83,14 @@ export function useVehicleQuery() {
     setPlate,
     basicInfo,
     fullReport,
-    pixData,
-    isCheckoutOpen,
-    setIsCheckoutOpen,
     isHistoryDrawerOpen,
     setIsHistoryDrawerOpen,
     isLoading,
     history,
     handleSearch,
-    handleStartCheckout,
-    handlePaymentConfirmed,
     handleSelectReportFromHistory,
     handleClearHistory,
     handleResetToSearch,
   };
 }
+
