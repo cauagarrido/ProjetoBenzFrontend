@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { FullVehicleReport } from '../../types/vehicle';
 import {
   ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
   ShieldCheck,
   Check,
   Car,
@@ -14,12 +12,8 @@ import {
   FileText,
   CreditCard,
   CheckCircle2,
-  Calendar,
-  Sparkles,
   Search,
-  ExternalLink,
   Info,
-  X
 } from 'lucide-react';
 import { InspectionModal } from '../cta/InspectionModal';
 import { vehicleApi } from '../../services/api';
@@ -37,8 +31,7 @@ export const ReportContainer: React.FC<ReportContainerProps> = ({
   onNewSearch,
 }) => {
   const [activeTab, setActiveTab] = useState<'historico' | 'documentacao' | 'vistoria' | 'resumo'>('historico');
-  const [currentCarImageIndex, setCurrentCarImageIndex] = useState(0);
-  
+
   // Modais de ação
   const [isInspectionModalOpen, setIsInspectionModalOpen] = useState(false);
   const [isInsuranceModalOpen, setIsInsuranceModalOpen] = useState(false);
@@ -53,21 +46,6 @@ export const ReportContainer: React.FC<ReportContainerProps> = ({
   });
   const [insuranceProtocol, setInsuranceProtocol] = useState<string | null>(null);
   const [isInsuranceLoading, setIsInsuranceLoading] = useState(false);
-
-  // Galeria de imagens do veículo
-  const carImages = [
-    'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80',
-  ];
-
-  const handlePrevImage = () => {
-    setCurrentCarImageIndex((prev) => (prev === 0 ? carImages.length - 1 : prev - 1));
-  };
-
-  const handleNextImage = () => {
-    setCurrentCarImageIndex((prev) => (prev === carImages.length - 1 ? 0 : prev + 1));
-  };
 
   const handleInsuranceSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,6 +73,9 @@ export const ReportContainer: React.FC<ReportContainerProps> = ({
   const financial = report.financial;
   const cadastral = report.cadastral;
 
+  /** True quando o relatório veio da API FIPE (sem consulta de placa) */
+  const isFipeOnly = basic.plate === 'FIPE';
+
   // Cálculo da circunferência para o anel de Score circular (raio 36)
   const radius = 36;
   const circumference = 2 * Math.PI * radius;
@@ -120,182 +101,7 @@ export const ReportContainer: React.FC<ReportContainerProps> = ({
           </span>
         </div>
 
-        {/* 2. Card Superior de Visão Geral do Veículo */}
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5 sm:p-7">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-center">
-            
-            {/* Seção 1: Foto e Identificação do Veículo (4 cols) */}
-            <div className="lg:col-span-4 flex items-center gap-4">
-              {/* Carrossel de fotos com botões < e > */}
-              <div className="relative w-36 sm:w-44 h-24 sm:h-28 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 group">
-                <img
-                  src={carImages[currentCarImageIndex]}
-                  alt={`${basic.brand} ${basic.model}`}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                
-                {/* Botões do carrossel */}
-                <button
-                  onClick={handlePrevImage}
-                  className="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center transition-colors shadow cursor-pointer"
-                  aria-label="Foto anterior"
-                >
-                  <ChevronLeft className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={handleNextImage}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center transition-colors shadow cursor-pointer"
-                  aria-label="Próxima foto"
-                >
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Título, Versão e Placa Mercosul */}
-              <div className="space-y-1.5">
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">
-                  {basic.brand} {basic.model.replace(/LIMITED.*/i, '').trim()}
-                </h2>
-                <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                  {basic.version} | {basic.yearFabrication} / {basic.yearModel}
-                </p>
-
-                {/* Badge de Placa Mercosul */}
-                <div className="inline-flex items-center bg-white border border-slate-300 rounded-md overflow-hidden shadow-xs">
-                  <div className="bg-[#003399] px-1.5 py-0.5 flex items-center justify-center">
-                    <span className="text-[8px] font-black text-white leading-none">BR</span>
-                  </div>
-                  <span className="px-2 py-0.5 text-xs font-mono font-black text-slate-800 tracking-wider">
-                    {basic.plate}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Seção 2: Score de Segurança da Compra (2 cols) */}
-            <div className="lg:col-span-2 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 lg:px-2 text-center">
-              <span className="text-xs font-bold text-slate-600 mb-2.5">
-                Score de segurança da compra
-              </span>
-
-              {/* Gauge Circular Donut com dimensões explícitas */}
-              <div className="relative w-20 h-20 flex items-center justify-center flex-shrink-0">
-                <svg className="w-20 h-20 -rotate-90" viewBox="0 0 84 84">
-                  {/* Anel de fundo cinza */}
-                  <circle
-                    cx="42"
-                    cy="42"
-                    r={radius}
-                    stroke="#e2e8f0"
-                    strokeWidth="7"
-                    fill="none"
-                  />
-                  {/* Anel verde preenchido */}
-                  <circle
-                    cx="42"
-                    cy="42"
-                    r={radius}
-                    stroke="#059669"
-                    strokeWidth="7"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    strokeLinecap="round"
-                    fill="none"
-                    className="transition-all duration-1000 ease-out"
-                  />
-                </svg>
-                {/* Pontuação no centro */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <span className="text-xl font-black text-slate-900 leading-none">
-                      {risks.riskScore}
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-bold leading-none block">
-                      /100
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Badge "Boa compra" centralizado abaixo do anel */}
-              <div className="mt-2">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#e8f8f0] text-[#059669] border border-[#b8eccb]">
-                  Boa compra
-                </span>
-              </div>
-            </div>
-
-            {/* Seção 3: Resumo do Veículo Checklist (3 cols - espaço amplo sem colisões) */}
-            <div className="lg:col-span-3 border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-6 space-y-2">
-              <span className="text-xs font-bold text-slate-600 block mb-2">
-                Resumo do veículo
-              </span>
-
-              <div className="space-y-1.5 text-xs text-slate-700">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
-                    <Check className="w-2.5 h-2.5 stroke-[3]" />
-                  </div>
-                  <span className="text-[11px] font-medium text-slate-700">Sem registro de leilão</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
-                    <Check className="w-2.5 h-2.5 stroke-[3]" />
-                  </div>
-                  <span className="text-[11px] font-medium text-slate-700">Sem registro de sinistro</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
-                    <Check className="w-2.5 h-2.5 stroke-[3]" />
-                  </div>
-                  <span className="text-[11px] font-medium text-slate-700">Sem restrição judicial</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {financial.gravame.hasFinancialRestriction ? (
-                    <div className="w-4 h-4 rounded-full bg-amber-500 flex items-center justify-center text-white flex-shrink-0">
-                      <AlertTriangle className="w-2.5 h-2.5 stroke-[2.5]" />
-                    </div>
-                  ) : (
-                    <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
-                      <Check className="w-2.5 h-2.5 stroke-[3]" />
-                    </div>
-                  )}
-                  <span className={`text-[11px] font-medium ${financial.gravame.hasFinancialRestriction ? 'text-amber-700' : 'text-slate-700'}`}>
-                    {financial.gravame.hasFinancialRestriction ? 'Com gravame' : 'Sem gravame'}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
-                    <Check className="w-2.5 h-2.5 stroke-[3]" />
-                  </div>
-                  <span className="text-[11px] font-medium text-slate-700">Sem débitos</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Seção 4: Card Verde "Tudo Certo!" (3 cols) */}
-            <div className="lg:col-span-3">
-              <div className="bg-[#edf9f2] border border-[#bbf0cb] rounded-2xl p-5 flex flex-col justify-center h-full">
-                <div className="w-8 h-8 rounded-full bg-[#d7f5e3] text-[#059669] flex items-center justify-center mb-2">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <h4 className="text-base font-extrabold text-[#14532d] tracking-tight">
-                  Tudo certo!
-                </h4>
-                <p className="text-xs text-[#166534] leading-relaxed mt-1 font-medium">
-                  {risks.riskSummary || 'O histórico consultado não apresentou ocorrências relevantes para a compra deste veículo.'}
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        {/* 3. Barra de Abas */}
+        {/* 2. Barra de Abas */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar pt-2">
           <button
             onClick={() => setActiveTab('historico')}
@@ -351,7 +157,7 @@ export const ReportContainer: React.FC<ReportContainerProps> = ({
           </button>
         </div>
 
-        {/* 4. Grade Principal de 3 Colunas */}
+        {/* 3. Grade Principal de 3 Colunas */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
           
           {/* Card 1: "Dados do veículo" */}
@@ -563,6 +369,172 @@ export const ReportContainer: React.FC<ReportContainerProps> = ({
 
           </div>
 
+        </div>
+
+        {/* 4. Card de Visão Geral do Veículo (Posicionado abaixo) */}
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5 sm:p-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-center">
+
+            {/* Seção 1: Identificação do Veículo sem foto (4 cols) */}
+            <div className="lg:col-span-4 flex items-center gap-4">
+              <div className="space-y-1.5">
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">
+                  {basic.brand} {basic.model.replace(/LIMITED.*/i, '').trim()}
+                </h2>
+                <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                  {basic.version} | {basic.yearFabrication} / {basic.yearModel}
+                </p>
+
+                {/* Badge de Placa Mercosul ou tag FIPE */}
+                {isFipeOnly ? (
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-50 border border-blue-200 text-blue-700 text-[11px] font-black tracking-wide">
+                      TABELA FIPE
+                    </span>
+                    <span className="text-sm font-black text-emerald-700">
+                      {basic.fipeValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center bg-white border border-slate-300 rounded-md overflow-hidden shadow-xs">
+                    <div className="bg-[#003399] px-1.5 py-0.5 flex items-center justify-center">
+                      <span className="text-[8px] font-black text-white leading-none">BR</span>
+                    </div>
+                    <span className="px-2 py-0.5 text-xs font-mono font-black text-slate-800 tracking-wider">
+                      {basic.plate}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Seção 2: Score de Segurança da Compra (2 cols) */}
+            <div className="lg:col-span-2 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 lg:px-2 text-center">
+              {isFipeOnly ? (
+                /* Exibe código FIPE quando não há score */
+                <div className="flex flex-col items-center gap-1.5">
+                  <span className="text-xs font-bold text-slate-600">Código FIPE</span>
+                  <span className="text-xl font-black text-slate-900 font-mono">{basic.fipeCode}</span>
+                  <span className="text-[10px] text-slate-400 font-medium">Ref. oficial</span>
+                </div>
+              ) : (
+                <>
+                  <span className="text-xs font-bold text-slate-600 mb-2.5">
+                    Score de segurança da compra
+                  </span>
+
+                  {/* Gauge Circular Donut */}
+                  <div className="relative w-20 h-20 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-20 h-20 -rotate-90" viewBox="0 0 84 84">
+                      <circle cx="42" cy="42" r={radius} stroke="#e2e8f0" strokeWidth="7" fill="none" />
+                      <circle
+                        cx="42" cy="42" r={radius}
+                        stroke="#059669" strokeWidth="7"
+                        strokeDasharray={circumference}
+                        strokeDashoffset={strokeDashoffset}
+                        strokeLinecap="round" fill="none"
+                        className="transition-all duration-1000 ease-out"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <span className="text-xl font-black text-slate-900 leading-none">{risks.riskScore}</span>
+                        <span className="text-[10px] text-slate-400 font-bold leading-none block">/100</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-2">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#e8f8f0] text-[#059669] border border-[#b8eccb]">
+                      Boa compra
+                    </span>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Seção 3: Resumo do Veículo Checklist (3 cols - espaço amplo sem colisões) */}
+            <div className="lg:col-span-3 border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-6 space-y-2">
+              <span className="text-xs font-bold text-slate-600 block mb-2">
+                Resumo do veículo
+              </span>
+
+              <div className="space-y-1.5 text-xs text-slate-700">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
+                    <Check className="w-2.5 h-2.5 stroke-[3]" />
+                  </div>
+                  <span className="text-[11px] font-medium text-slate-700">Sem registro de leilão</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
+                    <Check className="w-2.5 h-2.5 stroke-[3]" />
+                  </div>
+                  <span className="text-[11px] font-medium text-slate-700">Sem registro de sinistro</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
+                    <Check className="w-2.5 h-2.5 stroke-[3]" />
+                  </div>
+                  <span className="text-[11px] font-medium text-slate-700">Sem restrição judicial</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {financial.gravame.hasFinancialRestriction ? (
+                    <div className="w-4 h-4 rounded-full bg-amber-500 flex items-center justify-center text-white flex-shrink-0">
+                      <AlertTriangle className="w-2.5 h-2.5 stroke-[2.5]" />
+                    </div>
+                  ) : (
+                    <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
+                      <Check className="w-2.5 h-2.5 stroke-[3]" />
+                    </div>
+                  )}
+                  <span className={`text-[11px] font-medium ${financial.gravame.hasFinancialRestriction ? 'text-amber-700' : 'text-slate-700'}`}>
+                    {financial.gravame.hasFinancialRestriction ? 'Com gravame' : 'Sem gravame'}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-[#059669] flex items-center justify-center text-white flex-shrink-0">
+                    <Check className="w-2.5 h-2.5 stroke-[3]" />
+                  </div>
+                  <span className="text-[11px] font-medium text-slate-700">Sem débitos</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Seção 4: Card Verde "Tudo Certo!" ou card FIPE info */}
+            <div className="lg:col-span-3">
+              {isFipeOnly ? (
+                <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 flex flex-col justify-center h-full">
+                  <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-2">
+                    <Info className="w-5 h-5" />
+                  </div>
+                  <h4 className="text-sm font-extrabold text-blue-900 tracking-tight">
+                    Dados da Tabela FIPE
+                  </h4>
+                  <p className="text-xs text-blue-700 leading-relaxed mt-1 font-medium">
+                    {risks.riskSummary}
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-[#edf9f2] border border-[#bbf0cb] rounded-2xl p-5 flex flex-col justify-center h-full">
+                  <div className="w-8 h-8 rounded-full bg-[#d7f5e3] text-[#059669] flex items-center justify-center mb-2">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <h4 className="text-base font-extrabold text-[#14532d] tracking-tight">
+                    Tudo certo!
+                  </h4>
+                  <p className="text-xs text-[#166534] leading-relaxed mt-1 font-medium">
+                    {risks.riskSummary || 'O histórico consultado não apresentou ocorrências relevantes para a compra deste veículo.'}
+                  </p>
+                </div>
+              )}
+            </div>
+
+          </div>
         </div>
 
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { AuthProvider } from './hooks/useAuth';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { HeroSearch } from './components/hero/HeroSearch';
@@ -6,7 +7,7 @@ import { ReportContainer } from './components/report/ReportContainer';
 import { MyQueriesDrawer } from './components/history/MyQueriesDrawer';
 import { useVehicleQuery } from './hooks/useVehicleQuery';
 
-export function App() {
+function AppContent() {
   const {
     step,
     plate,
@@ -16,7 +17,9 @@ export function App() {
     setIsHistoryDrawerOpen,
     isLoading,
     history,
+    error,
     handleSearch,
+    handleFipeReport,
     handleSelectReportFromHistory,
     handleClearHistory,
     handleResetToSearch,
@@ -32,7 +35,7 @@ export function App() {
           : 'bg-[#e8ecf2] text-slate-800 selection:bg-blue-600 selection:text-white'
       }`}
     >
-      {/* 1. Header Global com Suporte aos Modos Escuro e Claro */}
+      {/* 1. Header */}
       <Navbar
         theme={isDarkTheme ? 'dark' : 'light'}
         onOpenHistory={() => setIsHistoryDrawerOpen(true)}
@@ -40,19 +43,19 @@ export function App() {
         onResetToHome={handleResetToSearch}
       />
 
-      {/* 2. Conteúdo Principal da Aplicação */}
+      {/* 2. Conteúdo Principal */}
       <main className="flex-1">
-        {/* TELA 1: Landing Page / Hero de Consulta (Escura) */}
         {step === 'SEARCH' && (
           <HeroSearch
             plate={plate}
             setPlate={setPlate}
             onSearch={(customPlate) => handleSearch(customPlate)}
+            onFipeResult={handleFipeReport}
             isLoading={isLoading}
+            error={error}
           />
         )}
 
-        {/* TELA 2: Dashboard Completo do Veículo (Clara) */}
         {step === 'REPORT' && fullReport && (
           <ReportContainer
             report={fullReport}
@@ -61,7 +64,7 @@ export function App() {
         )}
       </main>
 
-      {/* 3. Gaveta Lateral de Histórico de Consultas */}
+      {/* 3. Gaveta de Histórico */}
       <MyQueriesDrawer
         isOpen={isHistoryDrawerOpen}
         onClose={() => setIsHistoryDrawerOpen(false)}
@@ -70,11 +73,18 @@ export function App() {
         onClearHistory={handleClearHistory}
       />
 
-      {/* 4. Rodapé Global */}
+      {/* 4. Rodapé */}
       <Footer theme={isDarkTheme ? 'dark' : 'light'} />
     </div>
   );
 }
 
-export default App;
+export function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
 
+export default App;
